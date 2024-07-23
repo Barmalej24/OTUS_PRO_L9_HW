@@ -1,11 +1,11 @@
 ﻿using OTUS_PRO_L9_HW.Interface;
 
-namespace OTUS_PRO_L9_HW.Setting
+namespace OTUS_PRO_L9_HW.SetGame
 {
     /// <summary>
     /// Класс описывающий настройки для программы
     /// </summary>
-    public class SettingRandomGame : ISettingRandomGame //Принцип единственной ответственности;
+    public class SettingRandomGame : ISettingRandomGame
     {
         private int _intervalStart;
         private int _intervalEnd;
@@ -33,19 +33,6 @@ namespace OTUS_PRO_L9_HW.Setting
         /// <param name="intervalEnd">Конец диапазона загадоваемого числа</param>
         /// <param name="numberTry">Кол-во попыток отгадывания</param>
         public SettingRandomGame(int intervalStart, int intervalEnd, int numberTry)
-        {
-            _intervalStart = intervalStart;
-            _intervalEnd = intervalEnd;
-            _numberTry = numberTry;
-        }
-
-        /// <summary>
-        /// Задать новые настройки для игры
-        /// </summary>
-        /// <param name="intervalStart">Начало диапазона загадоваемого числа</param>
-        /// <param name="intervalEnd">Конец диапазона загадоваемого числа</param>
-        /// <param name="numberTry">Кол-во попыток отгадывания</param>
-        public void NewSettingRandomGame(int intervalStart, int intervalEnd, int numberTry)
         {
             _intervalStart = intervalStart;
             _intervalEnd = intervalEnd;

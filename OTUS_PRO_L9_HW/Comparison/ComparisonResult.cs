@@ -15,11 +15,6 @@
         /// <summary>
         /// Значение меньше
         /// </summary>
-        Smaller,
-        
-        /// <summary>
-        /// Достигнут придел
-        /// </summary>
-        Exp
+        Smaller
     }
 }

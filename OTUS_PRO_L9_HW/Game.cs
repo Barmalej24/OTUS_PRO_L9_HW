@@ -1,4 +1,4 @@
-﻿using OTUS_PRO_L9_HW.Comparison;
+﻿using OTUS_PRO_L9_HW.Base;
 using OTUS_PRO_L9_HW.Interface;
 
 namespace OTUS_PRO_L9_HW
@@ -6,62 +6,49 @@ namespace OTUS_PRO_L9_HW
     /// <summary>
     /// Игра рандом для консоли
     /// </summary>
-    internal class Game : IGame
+    internal class Game
     {
-        private readonly IRandomGame game;
-        
+        private readonly IBaseGame _game;
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Game"/> с помощью заданной игры.
         /// </summary>
-        public Game(IRandomGame game)
+        public Game(IRandomGame numberGenerator, ISettingRandomGame gameRules)
         {
-            this.game = game;
+            _game = new BaseGame(numberGenerator, gameRules);
         }
-        
+
         /// <summary>
         /// Запускает основной цикл программы для игры через консоль
         /// </summary>
-        public void StartGame()
-        {            
-            ComparisonResult result;
-            var number = 0;
-            var setting = game.GetSetting();
-            game.CreateRandomNumber();
-
-            Console.WriteLine($"Компьютер загодал число от {setting.IntervalStart} до {setting.IntervalEnd}. У вас осталось попыткок - {game.CheckAttempt()} .");
-            
-            while (game.CheckAttempt() != 0)
+        public void Start()
+        {
+            Console.WriteLine("Добро пожаловать в игру в угадывание числа!");
+            while (true)
             {
-                Console.WriteLine();
-                Console.WriteLine($"У вас осталось попыткок - {game.CheckAttempt()} .");
-                Console.Write($"Введите предпологаемое число:");
-                if (int.TryParse(Console.ReadLine(), out number))
+                try
                 {
-                    result = game.CheckingValue(number);
-                    switch (result)
+                    Console.Write("Введите ваше число (или 0 для выхода): ");
+                    int userGuess = int.Parse(Console.ReadLine());
+
+                    if (userGuess == 0)
                     {
-                        case ComparisonResult.Equals:
-                            Console.WriteLine($"Поздравляю число {number} это то самое загаданное число. Вы победили компьютер.");
-                            Console.WriteLine();
-                            return;
-                        case ComparisonResult.Bigger:
-                            Console.WriteLine($"К сожелению число {number} больше загаданного числа");
-                            break;
-                        case ComparisonResult.Smaller:
-                            Console.WriteLine($"К сожелению число {number} меньше загаданного числа");
-                            break;
-                        case ComparisonResult.Exp:
-                            break;
-                        default:
-                            break;
+                        Console.WriteLine("Спасибо за игру!");
+                        break;
+                    }
+
+                    string result = _game.Guess(userGuess);
+                    Console.WriteLine(result);
+                    if (result == "Поздравляю! Вы угадали то самое загаданное число. Вы победили компьютер.")
+                    {
+                        break;
                     }
                 }
-                else
+                catch (FormatException)
                 {
-                    Console.WriteLine("Неверный формат данных повторите ввод.");
+                    Console.WriteLine("Пожалуйста, введите целое число.");
                 }
             }
-            Console.WriteLine("К сожелению Вы проиграли компьютеру");
         }
     }
 }
